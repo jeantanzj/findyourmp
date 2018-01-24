@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Progress, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText } from 'reactstrap';
+import { Navbar, Progress, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText } from 'reactstrap';
 import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
 import classnames from 'classnames';
 import tin_pei_ling from './tin_pei_ling.jpg'
 import './Search.css';
 
-
 class Search extends Component {
-	constructor(props) {
+
+  constructor(props) {
 		super(props);
 
 		this.toggle = this.toggle.bind(this);
@@ -25,22 +25,18 @@ class Search extends Component {
     }
   }
 
+
+
 	render() {
 		return(
 		<Container>
 			<Row>
-
-
           <Col xs="6"><img className='image' src = {tin_pei_ling} /></Col>
           <Col xs="6">
           <Col sm={{ size: 'auto', offset: 1 }}>Name: Tin Pei Ling</Col>
           <Col sm={{ size: 'auto', offset: 1 }}>GRC: MacPherson SMC</Col>
           </Col>
           </Row>
-
-
-
-
         <Nav tabs>
           <NavItem>
             <NavLink
@@ -115,11 +111,6 @@ class Search extends Component {
         </TabContent>
      
         </Container>
-
-
-
-
-
 		)
 	}
 }

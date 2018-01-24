@@ -1,7 +1,8 @@
 import React from 'react';
 import './Records.css';
+import CustomizedLabel from './CustomizedLabel';
 // import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, Text} from 'recharts';
 
 export default class Records extends React.Component {
   constructor(props) {
@@ -16,15 +17,10 @@ export default class Records extends React.Component {
   name = "Tin Pei Ling";
   constituency = "MacPherson SMC";
   inOffice = "11 September 2015 to Present";
-  data = [
-      {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-      {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-      {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-      {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-      {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-      {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-      {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
+  attendanceData = [
+      {name: "Tin Pei Ling", MP: 50, Average: 60},
   ];
+  totalSittings = "10";
 
   render() {
     return (
@@ -49,46 +45,78 @@ export default class Records extends React.Component {
           </ul>
         </nav>
         <div class="container">
-          <div class="col-md-6 col-md-offset-3" id="profile">
-            <h1 class="col-md-12"> 
-              {this.name} 
-            </h1>
-            <img class="col-md-12 mp-pic" src="http://www.jeraldinephneah.com/wp-content/uploads/2015/12/tin_pei_ling_pap.jpg"/>
-            <div class="col-md-12">
-              <img class="col-md-3 party-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/28/People%27s_Action_Party_of_Singapore_logo.svg/1024px-People%27s_Action_Party_of_Singapore_logo.svg.png"/>
-              <div class="col-md-9">
-                <h3>MP for &nbsp;<b>{this.constituency}</b></h3>
-                <h5>{this.inOffice}</h5>
-              </div>
+          <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-12" id="profile">
+              <h1 class="col-md-6 col-md-offset-3 middle"><b>{this.name}</b></h1>
+              <img class="col-md-3 pull-right party-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/28/People%27s_Action_Party_of_Singapore_logo.svg/1024px-People%27s_Action_Party_of_Singapore_logo.svg.png"/>
+              <img class="mp-pic" src="http://www.jeraldinephneah.com/wp-content/uploads/2015/12/tin_pei_ling_pap.jpg"/>
+              <h3 class="middle">MP for &nbsp;<b>{this.constituency}</b></h3>
+              <h5 class="middle">{this.inOffice}</h5>
+            </div>
+            <div class="col-md-12" id="attendence">
+              <h1 class="title">Parliament Attendence</h1>
+              <h3>{this.name} vs The Average MP</h3>
+              <h5>Out of {this.totalSittings} possible sittings</h5>
+              <BarChart
+                id="attendenceChart"
+                width={400} 
+                height={100} 
+                data={this.attendanceData} 
+                layout="vertical"
+                margin={{top: 0, right: 0, left: 0, bottom: 5}}>
+                <XAxis type="number" hide="true" domain={[0, 100]}/>
+                <YAxis type="category" dataKey="name" hide="true"/>
+                <Bar dataKey="MP" barSize={40} fill="#61bf93" background={{ fill: '#eee' }} label={<CustomizedLabel fill="#61bf93"/>}/>
+                <Bar dataKey="Average" barSize={40} fill="#8884d8" background={{ fill: '#eee' }} label={<CustomizedLabel fill="#8884d8"/>}/>
+              </BarChart>
             </div>
           </div>
-          <div class="col-md-6 col-md-offset-3" id="attendence">
-            <h1 class="col-md-12"> 
-              Parliament Attendence
-            </h1>
-
-            <BarChart 
-              width={600} 
-              height={300} 
-              data={this.data} 
-              layout="vertical"
-              margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-              <XAxis type="number"/>
-              <YAxis type="category" dataKey="name" />
-              <Bar dataKey="pv" fill="#8884d8" />
-              <Bar dataKey="uv" fill="#82ca9d" />
-            </BarChart>
-          </div>
-
-
-
-
         </div>
-
       </body>
     );
   }
 }
+ //         <BarChart 
+      //       width={900} 
+      //       height={260} 
+      //       data={data}
+      //       margin={{top: 5, right: 0, left: 0, bottom: 25}}>
+      //  <XAxis 
+      //      dataKey="Text"
+      //      fontFamily="sans-serif"
+      //      tickSize
+      //      dy='25'
+      //  />
+      //  <YAxis hide/>
+      //  <CartesianGrid 
+      //      vertical={false}
+      //      stroke="#ebf3f0"
+      //  />
+      //  <Bar 
+      //      dataKey="RespondentPercentage" 
+      //      barSize ={170}
+      //      fontFamily="sans-serif"
+      //      label={<CustomizedLabel />}
+      //      fill="#61bf93"
+      //      >
+            
+      //   </Bar>
+      // </BarChart>
+
+ // label={<CustomizedLabel />}
+// const CustomizedLabel = React.createClass({
+//     render () {
+//       const {x, y, fill, value} = this.props;
+//       return <text 
+//                  x={x} 
+//                  y={y} 
+//                  dy={-4} 
+//                  fontSize='16' 
+//                  fontFamily='sans-serif'
+//                  fill={fill}
+//                  textAnchor="middle">{value}%</text>
+//     }
+//   });
 
 // <LineChart class="col-md-12" width={600} height={300} data={this.data}
 //             margin={{top: 5, right: 30, left: 20, bottom: 5}}>

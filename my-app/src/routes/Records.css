@@ -1,19 +1,20 @@
-/*a h2 {
-   padding-right: 20px; 
-}
-
-.spacing {
-	padding-top: 25px;
-}
-*/
-#profile > .col-md-12 > .col-md-8
+#profile > .col-md-9,
+#profile > .col-md-3
 {
 	padding-right: 0; 
 	padding-left: 0;
 }
 
-.party-logo {
-	width: 80px;
+#profile > .party-logo {
+	width: auto;
+	height: 35px;
+}
+
+#profile > .mp-pic {
+	padding-top: 25px;
+	padding-bottom: 25px;
+	max-height: 100%;
+    max-width: 100%;
 }
 
 #attendence,
@@ -21,7 +22,19 @@
 	padding-top: 25px
 }
 
-.mp-pic {
-	padding-top: 25px;
+.title {
 	padding-bottom: 25px;
+}
+
+#attendence .attendenceChart {
+    max-width: 100%;
+}
+
+
+.middle {
+	text-align: center;
+}
+
+.mp-name {
+	display: inline-block;
 }

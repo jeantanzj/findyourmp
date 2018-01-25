@@ -4,7 +4,6 @@ import CustomizedLabel from './CustomizedLabel';
 // import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, Text} from 'recharts';
 
-
 export default class Records extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +21,25 @@ export default class Records extends React.Component {
       {name: "Tin Pei Ling", MP: 50, Average: 60},
   ];
   totalSittings = "10";
+  votingHistory = [
+            {
+              "motion":"Reserved Election",
+              "vote":"Noe",
+              "status":"Passed"
+            },
+            {
+              "motion":"Funding for SG Enable",
+              "vote":"Aye",
+              "status":"Passed"
+            },
+            {
+              "motion":"Public Service Governance Bill",
+              "vote":"Abstain",
+              "status":"Passed"
+            }
+         ];
+
+  
 
   render() {
     return (
@@ -38,7 +56,7 @@ export default class Records extends React.Component {
               <a class="nav-link" href="#voting"><h2>Votes</h2></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><h2>Topics</h2></a>
+              <a class="nav-link" href="#topics"><h2>Topics</h2></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"><h2>Words</h2></a>
@@ -57,7 +75,7 @@ export default class Records extends React.Component {
                 <h1 class="col-md-9"><b>{this.name}</b></h1>
                 <img class="col-md-3 pull-right party-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/28/People%27s_Action_Party_of_Singapore_logo.svg/1024px-People%27s_Action_Party_of_Singapore_logo.svg.png"/>
               <div class="col-md-12">
-                <h3>MP for &nbsp;<b>{this.constituency}</b></h3>
+                <h3>MP for <b>{this.constituency}</b></h3>
                 <h5>{this.inOffice}</h5>
               </div>
             </div>
@@ -81,17 +99,41 @@ export default class Records extends React.Component {
                 <Bar dataKey="MP" barSize={40} fill="#61bf93" background={{ fill: '#eee' }} label={<CustomizedLabel fill="#61bf93"/>}/>
                 <Bar dataKey="Average" barSize={40} fill="#8884d8" background={{ fill: '#eee' }} label={<CustomizedLabel fill="#8884d8"/>}/>
               </BarChart>
+              
             </div>
             <div class="col-md-12" id="voting">
               <nav class="navbar navbar-light bg-light">
                 <div class="title">
-                <h1>Voting History</h1>
+                  <h1>Voting History</h1>
+                </div>
+              </nav>     
+              <ul class="list-group">
+                {Object.keys(this.votingHistory).map((i) =>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>{this.votingHistory[i].motion}</h5>
+                    {this.votingHistory[i].vote == "Aye" &&
+                      <h5><span class="badge badge-pill badge-success">Aye</span></h5>
+                    }
+                    {this.votingHistory[i].vote == "Noe" &&
+                      <h5><span class="badge badge-pill badge-danger">Noe</span></h5>
+                    }
+                    {this.votingHistory[i].vote == "Abstain" &&
+                      <h5><span class="badge badge-pill badge-secondary">Abstain</span></h5>
+                    }
+                  </li>
+                )}
+              </ul>
+
+
+
+            </div>
+            <div class="col-md-12" id="topics">
+              <nav class="navbar navbar-light bg-light">
+                <div class="title">
+                  <h1>Topics Spoken On</h1>
                 </div>
               </nav>
-              <h3>{this.name} vs The Average MP</h3>
-              <h5>Out of {this.totalSittings} possible sittings</h5>
-              
-   
+
             </div>
           </div>
         </div>
@@ -99,6 +141,12 @@ export default class Records extends React.Component {
     );
   }
 }
+
+// - include search for Votes
+// - include non fixed header
+
+// 
+
  //         <BarChart 
       //       width={900} 
       //       height={260} 

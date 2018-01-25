@@ -8,7 +8,7 @@
 
 #profile > .party-logo {
 	width: auto;
-	height: 35px;
+	height: 80px;
 }
 
 #profile > .mp-pic {
@@ -33,12 +33,8 @@
     max-width: 100%;
 }
 
-
-.middle {
-	text-align: center;
+.container {
+	padding-top: 50px;
 }
 
-.mp-name {
-	display: inline-block;
-}
 

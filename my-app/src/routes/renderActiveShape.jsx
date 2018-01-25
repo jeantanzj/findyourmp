@@ -15,7 +15,6 @@ const renderActiveShape = (props) => {
   const ex = mx + (cos >= 0 ? 1 : -1) * 22;
   const ey = my;
   const textAnchor = cos >= 0 ? 'start' : 'end';
-  console.log('hello', props)
 
   return (
     <g>

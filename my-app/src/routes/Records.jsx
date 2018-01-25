@@ -19,41 +19,25 @@ export default class Records extends React.Component {
 
   componentDidMount() {
     const { match: { params } } = this.props;
-    console.log(params.mpName)
-  }
-
-  onPieEnter(data, index) {
+    console.log(params.mpName);
     this.setState({
-      activeIndex: index,
+      name: "Tin Pei Ling",
+      constituency: "MacPherson SMC",
+      inOffice: "11 September 2015 to Present",
+      attendanceData: [{name: "Tin Pei Ling", MP: 50, Average: 60}],
+      totalSittings: "10",
+      data: [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
+                  {name: 'Group C', value: 300}, {name: 'Group D', value: 200}],
+      
     });
   }
 
-  name = "Tin Pei Ling";
-  constituency = "MacPherson SMC";
-  inOffice = "11 September 2015 to Present";
-  attendanceData = [
-      {name: "Tin Pei Ling", MP: 50, Average: 60},
-  ];
-  totalSittings = "10";
-  votingHistory = [
-            {
-              "motion":"Reserved Election",
-              "vote":"Noe",
-              "status":"Passed"
-            },
-            {
-              "motion":"Funding for SG Enable",
-              "vote":"Aye",
-              "status":"Passed"
-            },
-            {
-              "motion":"Public Service Governance Bill",
-              "vote":"Abstain",
-              "status":"Passed"
-            }
-         ];
-  data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                  {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
+  onPieEnter(data, index) {
+    console.log('on pie enter')
+    this.setState({
+      activeIndex: index
+    });
+  }
 
   search() {
     console.log('in search')
@@ -65,6 +49,13 @@ export default class Records extends React.Component {
     .then(json => console.log('json', json))
   }
 
+
+  votingHistory = [{"motion":"Reserved Election","vote":"Noe","status":"Passed"},
+            {"motion":"Funding for SG Enable","vote":"Aye","status":"Passed"},
+            {"motion":"Public Service Governance Bill","vote":"Abstain","status":"Passed"}]
+
+
+  
   render() {
     return (
       <body>
@@ -96,11 +87,11 @@ export default class Records extends React.Component {
                 </div>
               </nav>
                 <img class="mp-pic" src="http://www.jeraldinephneah.com/wp-content/uploads/2015/12/tin_pei_ling_pap.jpg"/>
-                <h1 class="col-md-9"><b>{this.name}</b></h1>
+                <h1 class="col-md-9"><b>{this.state.name}</b></h1>
                 <img class="col-md-3 pull-right party-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/28/People%27s_Action_Party_of_Singapore_logo.svg/1024px-People%27s_Action_Party_of_Singapore_logo.svg.png"/>
               <div class="col-md-12">
-                <h3>MP for <b>{this.constituency}</b></h3>
-                <h5>{this.inOffice}</h5>
+                <h3>MP for <b>{this.state.constituency}</b></h3>
+                <h5>{this.state.inOffice}</h5>
               </div>
             </div>
             <div class="col-md-12" id="attendence">
@@ -109,13 +100,13 @@ export default class Records extends React.Component {
                 <h1>Parliament Attendence</h1>
                 </div>
               </nav>
-              <h3><span style={{color:'#61bf93'}}>{this.name}</span> vs <span style={{color:'#8884d8'}}>The Average MP</span></h3>
-              <h5>Out of {this.totalSittings} possible sittings</h5>
+              <h3><span style={{color:'#61bf93'}}>{this.state.name}</span> vs <span style={{color:'#8884d8'}}>The Average MP</span></h3>
+              <h5>Out of {this.state.totalSittings} possible sittings</h5>
               <BarChart
                 id="attendenceChart"
                 width={400} 
                 height={100} 
-                data={this.attendanceData} 
+                data={this.state.attendanceData} 
                 layout="vertical"
                 margin={{top: 0, right: 0, left: 0, bottom: 0}}>
                 <XAxis type="number" hide="true" domain={[0, 100]}/>
@@ -159,7 +150,7 @@ export default class Records extends React.Component {
                 <Pie 
                   activeIndex={this.state.activeIndex}
                   activeShape={renderActiveShape} 
-                  data={this.data} 
+                  data={this.state.data} 
                   cx={300} 
                   cy={200} 
                   innerRadius={60}
@@ -177,6 +168,8 @@ export default class Records extends React.Component {
     );
   }
 }
+
+
 
 // search bar for topics
 // bar chart, select filters

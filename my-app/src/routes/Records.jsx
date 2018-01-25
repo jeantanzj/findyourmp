@@ -1,17 +1,31 @@
 import React from 'react';
 import './Records.css';
 import CustomizedLabel from './CustomizedLabel';
+import renderActiveShape from './renderActiveShape';
 // import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, Text} from 'recharts';
+import {PieChart, Pie} from 'recharts';              
 
 export default class Records extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      activeIndex: 0
+    };
+
+    this.onPieEnter = this.onPieEnter.bind(this);
   }
 
   componentDidMount() {
     const { match: { params } } = this.props;
     console.log(params.mpName)
+  }
+
+  onPieEnter(data, index) {
+    this.setState({
+      activeIndex: index,
+    });
   }
 
   name = "Tin Pei Ling";
@@ -38,8 +52,18 @@ export default class Records extends React.Component {
               "status":"Passed"
             }
          ];
+  data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
+                  {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
 
-  
+  search() {
+    console.log('in search')
+    const url = 'https://findyourmp.herokuapp.com/tinpeiling/';
+    fetch(url, {
+      method: 'GET'
+    })  
+    .then(response => response.json())
+    .then(json => console.log('json', json))
+  }
 
   render() {
     return (
@@ -123,9 +147,7 @@ export default class Records extends React.Component {
                   </li>
                 )}
               </ul>
-
-
-
+              <button onClick={event => this.search()}>click me</button>
             </div>
             <div class="col-md-12" id="topics">
               <nav class="navbar navbar-light bg-light">
@@ -133,6 +155,20 @@ export default class Records extends React.Component {
                   <h1>Topics Spoken On</h1>
                 </div>
               </nav>
+              <PieChart width={800} height={400}>
+                <Pie 
+                  activeIndex={this.state.activeIndex}
+                  activeShape={renderActiveShape} 
+                  data={this.data} 
+                  cx={300} 
+                  cy={200} 
+                  innerRadius={60}
+                  outerRadius={80} 
+                  fill="#8884d8"
+                  onMouseEnter={this.onPieEnter}
+                />
+              </PieChart>
+
 
             </div>
           </div>
@@ -141,6 +177,10 @@ export default class Records extends React.Component {
     );
   }
 }
+
+// search bar for topics
+// bar chart, select filters
+// improve ui for performance
 
 // - include search for Votes
 // - include non fixed header

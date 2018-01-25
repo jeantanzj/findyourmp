@@ -4,6 +4,7 @@ import CustomizedLabel from './CustomizedLabel';
 // import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, Text} from 'recharts';
 
+
 export default class Records extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +35,7 @@ export default class Records extends React.Component {
               <a class="nav-link" href="#attendence"><h2>Attendence</h2></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><h2>Votes</h2></a>
+              <a class="nav-link" href="#voting"><h2>Votes</h2></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"><h2>Topics</h2></a>
@@ -47,15 +48,26 @@ export default class Records extends React.Component {
         <div class="container">
           <div class="col-md-6 col-md-offset-3">
             <div class="col-md-12" id="profile">
-              <h1 class="col-md-6 col-md-offset-3 middle"><b>{this.name}</b></h1>
-              <img class="col-md-3 pull-right party-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/28/People%27s_Action_Party_of_Singapore_logo.svg/1024px-People%27s_Action_Party_of_Singapore_logo.svg.png"/>
-              <img class="mp-pic" src="http://www.jeraldinephneah.com/wp-content/uploads/2015/12/tin_pei_ling_pap.jpg"/>
-              <h3 class="middle">MP for &nbsp;<b>{this.constituency}</b></h3>
-              <h5 class="middle">{this.inOffice}</h5>
+              <nav class="navbar navbar-light bg-light">
+                <div class="title">
+                <h1>Profile</h1>
+                </div>
+              </nav>
+                <img class="mp-pic" src="http://www.jeraldinephneah.com/wp-content/uploads/2015/12/tin_pei_ling_pap.jpg"/>
+                <h1 class="col-md-9"><b>{this.name}</b></h1>
+                <img class="col-md-3 pull-right party-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/28/People%27s_Action_Party_of_Singapore_logo.svg/1024px-People%27s_Action_Party_of_Singapore_logo.svg.png"/>
+              <div class="col-md-12">
+                <h3>MP for &nbsp;<b>{this.constituency}</b></h3>
+                <h5>{this.inOffice}</h5>
+              </div>
             </div>
             <div class="col-md-12" id="attendence">
-              <h1 class="title">Parliament Attendence</h1>
-              <h3>{this.name} vs The Average MP</h3>
+              <nav class="navbar navbar-light bg-light">
+                <div class="title">
+                <h1>Parliament Attendence</h1>
+                </div>
+              </nav>
+              <h3><span style={{color:'#61bf93'}}>{this.name}</span> vs <span style={{color:'#8884d8'}}>The Average MP</span></h3>
               <h5>Out of {this.totalSittings} possible sittings</h5>
               <BarChart
                 id="attendenceChart"
@@ -63,12 +75,23 @@ export default class Records extends React.Component {
                 height={100} 
                 data={this.attendanceData} 
                 layout="vertical"
-                margin={{top: 0, right: 0, left: 0, bottom: 5}}>
+                margin={{top: 0, right: 0, left: 0, bottom: 0}}>
                 <XAxis type="number" hide="true" domain={[0, 100]}/>
                 <YAxis type="category" dataKey="name" hide="true"/>
                 <Bar dataKey="MP" barSize={40} fill="#61bf93" background={{ fill: '#eee' }} label={<CustomizedLabel fill="#61bf93"/>}/>
                 <Bar dataKey="Average" barSize={40} fill="#8884d8" background={{ fill: '#eee' }} label={<CustomizedLabel fill="#8884d8"/>}/>
               </BarChart>
+            </div>
+            <div class="col-md-12" id="voting">
+              <nav class="navbar navbar-light bg-light">
+                <div class="title">
+                <h1>Voting History</h1>
+                </div>
+              </nav>
+              <h3>{this.name} vs The Average MP</h3>
+              <h5>Out of {this.totalSittings} possible sittings</h5>
+              
+   
             </div>
           </div>
         </div>

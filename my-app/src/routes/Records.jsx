@@ -4,52 +4,93 @@ import CustomizedLabel from './CustomizedLabel';
 import renderActiveShape from './renderActiveShape';
 // import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, Text} from 'recharts';
-import {PieChart, Pie} from 'recharts';              
+import {PieChart, Pie} from 'recharts';   
+
+// Object
+// Attendance
+// :
+// 93.25153374233128
+// Topics
+// :
+// (62) ["Measures to Ensure Childcare Operators are Financially Sound", "Number of Arrests for Physical Assaults in Public Areas", "Development of New Digital Identity System", "Election of Speaker", "Curb Illegal Gambling in HDB Estates", "Number of Singaporeans without Bank Account", "Implementation of Smart Nation and Cashless Payment for Public Services", "Implementation Plans for Cashless Public Transport System", "Frequency of Sweeping and Cleaning of Public Areas under NEA", "Guidelines to Minimise Misdiagnosis by Doctors", "Fair Pricing for Milk Powder", "Strengthening Singapore's Fight Against Drugs", "Aspirations of Singapore Women", "Aspirations of Singapore Women", "Strengthening Legislation for Crime against Children", "Committee of Supply – Head O (Ministry of Health)", "Committee of Supply − Head I (Ministry of Social and Family Development)", "Committee of Supply – Head K (Ministry of Education)", "Committee of Supply – Head N (Ministry of Foreign Affairs)", "Committee of Supply – Head U (Prime Minister's Office)", "Debate on Annual Budget Statement", "Repair of Lifts that Break Down Repeatedly", "Community Dispute Applications Received by Community Disputes Resolution Tribunals", "Total Subsidised and Private Nursing Home Capacity", "Application Fee for Enforcement of Money Order Issued by Small Claims Tribunal", "Additional Nursing Home Beds from 2021 to 2030", "Reason for Singapore's Drop in World Talent Report 2016 Ranking", "Profile and Allocation of Additional 30,000 Healthcare Workers Required by 2020", "Contingency when Lift Companies Exit Singapore's Market", "Quality Control for Lift Installation and Maintenance", "Measures to Limit Noise Caused by MRT Trains to Central Grove Condominium Residents", "Constitution of the Republic of Singapore (Amendment) Bill", "Inspections of HDB Buildings for Structural Integrity and Design", "Benefits of Noise Barriers along MRT Tracks", "Value of Rewards for Paralympic Medallists", "Working Together to Address the Zika Outbreak in Singapore", "Appeals to CPF Board for Inclusion in Silver Support Scheme", "Public Education and National Registry for Zika", "Qualifying for Maternity Protection under Child Development Co-Savings Act and Employment Act", "Using Forensics Data Analysis to Curb Recalcitrant High-rise Littering Culprits", "Automatic PR Status for Foreign Spouses of Singapore Citizens with One Singapore Citizen Child", "Measures to Deter Pet Abandonment", "Complaints about Pigeons", "Measures to Address Recent Spate of Lift Breakdowns at HDB Flats", "Committee of Supply – Head O (Ministry of Health)", "Committee of Supply – Head O (Ministry of Health)", "Committee of Supply – Head U (Prime Minister's Office)", "Committee of Supply – Head L (Ministry of the Environment and Water Resources)", "Committee of Supply – Head I (Ministry of Social and Family Development)", "Debate on Annual Budget Statement", "Number of Long-Term Visit Pass Plus Granted after Introduction of Scheme", "Lift Replacement by Town Councils", "Long-term Viability of Shops in HDB Heartlands", "Impact of Pre-school Teachers on Recruitment and Centre Operations", "Effectiveness of High-rise Littering Prevention Measures", "Supply and Demand for Pilots", "Support for Retrenched Workers and Their Families", "Women's Charter (Amendment) Bill", "Debate on President's Address", "Appointment of Deputies for Individuals No Longer Capable of Decisions", "Ensuring Security in Light of Recent Terrorist Attacks", "Election of Speaker"]
+// 
+// :
+// Object           
 
 export default class Records extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeIndex: 0
+      activeIndex: 0,
+      name: "",
+      voteYes: [],
+      voteNo: [],
+      voteAbstain: [],
+      attendanceData: [{MP: 0, Average: 0}],
+      constituency: "",
+      topicsSpoken: []
     };
 
     this.onPieEnter = this.onPieEnter.bind(this);
+    this.search = this.search.bind(this);
   }
 
   componentDidMount() {
     const { match: { params } } = this.props;
-    console.log(params.mpName);
     this.setState({
-      name: "Tin Pei Ling",
-      constituency: "MacPherson SMC",
       inOffice: "11 September 2015 to Present",
-      attendanceData: [{name: "Tin Pei Ling", MP: 50, Average: 60}],
-      totalSittings: "10"
+      totalSittings: "54"
     });
+    this.search(params.mpName);
   }
 
   onPieEnter(data, index) {
-    console.log('on pie enter')
     this.setState({
       activeIndex: index
     });
   }
 
-  search() {
+  search(mpName) {
     console.log('in search')
-    const url = 'https://findyourmp.herokuapp.com/tinpeiling/';
+    var url,
+        mpConstituency,
+        mpImage;
+    if (mpName == "tinpeiling") {
+      url = 'https://findyourmp.herokuapp.com/tinpeiling';
+      mpName = 'Tin Pei Ling';
+      mpConstituency = 'MacPherson SMC';
+      mpImage = 'http://www.jeraldinephneah.com/wp-content/uploads/2015/12/tin_pei_ling_pap.jpg';
+    }
+    if (mpName == "limbiowchuan") {
+      url = 'https://findyourmp.herokuapp.com/limbiowchuan';
+      mpName = 'Lim Biow Chuan';
+      mpConstituency = 'Mountbatten SMC'
+      mpImage = 'http://images.marketing-interactive.com.s3.amazonaws.com/wp-content/uploads/2016/05/Lim-Biow-Chuan-e1463454315361.jpg';
+    }
     fetch(url, {
       method: 'GET'
     })  
     .then(response => response.json())
-    .then(json => console.log('json', json))
+    .then(json => {
+      var temp = json['Topics'];
+      for (var i = 0; i < temp.length; i++) {
+         temp[i].value = temp[i].Topics.length
+      }
+      console.log(temp)
+      this.setState({
+                      topicsSpoken: json['Topics'],
+                      image: mpImage,
+                      constituency: mpConstituency,
+                      name: mpName,
+                      voteYes: json['VoteYes'],
+                      voteNo: json['VoteNo'],
+                      voteAbstain: json['VoteAbstain'],
+                      attendanceData: [{MP: json['Attendance'], Average: 90.6}]
+                    })
+    })     
   }
 
-
-  votingHistory = [{motion:"Reserved Election",vote:"Noe",status:"Passed"},
-            {motion:"Funding for SG Enable",vote:"Aye",status:"Passed"},
-            {motion:"Public Service Governance Bill",vote:"Abstain",status:"Passed"}]
   topicsSpoken = [{name: 'Education', value: 5, topics: ['1', '1', '1']}, {name: 'Transport', value: 2, topics: ['2', '2', '2']},
                   {name: 'Womens Rights', value: 3, topics: ['3', '3', '3']}, {name: 'Race Relations', value: 8, topics: ['4', '4', '4']}]
   
@@ -65,7 +106,7 @@ export default class Records extends React.Component {
               <a class="nav-link" href="#profile"><h2>Profile</h2></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#attendence"><h2>Attendence</h2></a>
+              <a class="nav-link" href="#attendance"><h2>Attendance</h2></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#voting"><h2>Votes</h2></a>
@@ -76,6 +117,7 @@ export default class Records extends React.Component {
           </ul>
         </nav>
         <div class="container">
+
           <div class="col-md-6 col-md-offset-3">
             <div class="col-md-12" id="profile">
               <nav class="navbar navbar-light" style={{backgroundColor: '#e3f2fd'}}>
@@ -83,7 +125,7 @@ export default class Records extends React.Component {
                 <h1>Profile</h1>
                 </div>
               </nav>
-              <img class="mp-pic" src="http://www.jeraldinephneah.com/wp-content/uploads/2015/12/tin_pei_ling_pap.jpg"/>
+              <img class="mp-pic" src={this.state.image}/>
               <div class="col-md-9">
                 <h1>{this.state.name}</h1>
                 <h3>MP for {this.state.constituency}</h3>
@@ -92,24 +134,24 @@ export default class Records extends React.Component {
               <img class="col-md-3 pull-right party-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/2/28/People%27s_Action_Party_of_Singapore_logo.svg/1024px-People%27s_Action_Party_of_Singapore_logo.svg.png"/>
               
             </div>
-            <div class="col-md-12" id="attendence">
+            <div class="col-md-12" id="attendance">
               <nav class="navbar navbar-light" style={{backgroundColor: '#e3f2fd'}}>
                 <div class="title">
-                <h1>Parliament Attendence</h1>
+                <h1>Parliament Attendance</h1>
                 </div>
               </nav>
               <h4>The 13th Parliament of Singapore is the current Parliament of Singapore that began on 15 January 2016.
-              Parliament Attendence for MPs during this period is calculated as a percentage out of the {this.state.totalSittings} days the 13th Parliament has 
+              Parliament Attendance for MPs during this period is calculated as a percentage out of the {this.state.totalSittings} days the 13th Parliament has 
               convened thus far.</h4>
               <br/>
               <h4><span style={{color:'#61bf93'}}>{this.state.name}</span> vs <span style={{color:'#D3D3D3'}}>The Average MP</span></h4>
               <BarChart
-                id="attendenceChart"
+                id="attendanceChart"
                 width={400} 
                 height={100} 
                 data={this.state.attendanceData} 
                 layout="vertical"
-                margin={{top: 0, right: 0, left: 0, bottom: 0}}>
+                margin={{top: 0, right: 50, left: 0, bottom: 0}}>
                 <XAxis type="number" hide="true" domain={[0, 100]}/>
                 <YAxis type="category" dataKey="name" hide="true"/>
                 <Bar dataKey="MP" barSize={40} fill="#61bf93" background={{ fill: '#eee' }} label={<CustomizedLabel fill="#61bf93"/>}/>
@@ -128,20 +170,24 @@ export default class Records extends React.Component {
               under such instances are recorded below.</h4>
               <br/>
               <ul class="list-group">
-              {this.votingHistory.map((item, i) =>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <h4>{this.votingHistory[i].motion}</h4>
-                  {this.votingHistory[i].vote == "Aye" &&
+                {this.state.voteYes.map((item, i) =>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h4>{item}</h4>
                     <h4><span class="badge badge-pill badge-success">Aye</span></h4>
-                  }
-                  {this.votingHistory[i].vote == "Noe" &&
+                  </li>
+                )}
+                {this.state.voteNo.map((item, i) =>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h4>{item}</h4>
                     <h4><span class="badge badge-pill badge-danger">Noe</span></h4>
-                  }
-                  {this.votingHistory[i].vote == "Abstain" &&
+                  </li>
+                )}
+                {this.state.voteAbstain.map((item, i) =>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h4>{item}</h4>
                     <h4><span class="badge badge-pill badge-secondary">Abstain</span></h4>
-                  }
-                </li>
-              )}
+                  </li>
+                )}
               </ul>
             </div>
             <div class="col-md-12" id="topics">
@@ -186,7 +232,7 @@ export default class Records extends React.Component {
 }
 
 
-              // <button onClick={event => this.search()}>click me</button>
+              // 
 
 // search bar for topics
 // bar chart, select filters

@@ -7,11 +7,11 @@ export default class CustomizedLabel extends React.Component {
                x={x} 
                y={y} 
                dy={25} 
-               dx={width + 30}
+               dx={375}
                fontSize='16' 
                fontFamily='sans-serif'
                fill={fill}
-               textAnchor="middle">{value}%</text>
+               textAnchor="middle">{(value).toFixed(0)}%</text>
     }
 }
 

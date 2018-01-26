@@ -17,7 +17,7 @@
     max-width: 100%;
 }
 
-#attendence,
+#attendance,
 #profile,
 #voting,
 #topics {
@@ -29,7 +29,7 @@
 	position: absolute;
 }
 
-#attendence .attendenceChart {
+#attendance .attendanceChart {
     max-width: 100%;
 }
 

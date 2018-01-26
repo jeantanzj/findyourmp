@@ -29,7 +29,7 @@ export default class Records extends React.Component {
       voteAbstain: [],
       attendanceData: [{MP: 0, Average: 0}],
       constituency: "",
-      topicsSpoken: []
+      topicsSpoken: [{"Category":'', "Topics":[], "value": 0}]
     };
 
     this.onPieEnter = this.onPieEnter.bind(this);
@@ -91,9 +91,6 @@ export default class Records extends React.Component {
     })     
   }
 
-  topicsSpoken = [{name: 'Education', value: 5, topics: ['1', '1', '1']}, {name: 'Transport', value: 2, topics: ['2', '2', '2']},
-                  {name: 'Womens Rights', value: 3, topics: ['3', '3', '3']}, {name: 'Race Relations', value: 8, topics: ['4', '4', '4']}]
-  
   render() {
     return (
       <body>
@@ -205,22 +202,23 @@ export default class Records extends React.Component {
                 <Pie 
                   activeIndex={this.state.activeIndex}
                   activeShape={renderActiveShape} 
-                  data={this.topicsSpoken} 
+                  data={this.state.topicsSpoken} 
                   innerRadius={80}
                   outerRadius={110} 
                   fill="#61bf93"
                   onMouseEnter={this.onPieEnter}
                 />
               </PieChart>
-              <h4><span style={{color:'#61bf93'}}>{this.topicsSpoken[this.state.activeIndex].name} Related Topics</span></h4>
+              <h4><span style={{color:'#61bf93'}}>{this.state.topicsSpoken[this.state.activeIndex].Category} Related Topics</span></h4>
               <br/>
               <ul class="list-group list-group-flush">
-                {this.topicsSpoken[this.state.activeIndex].topics.map((item, i) =>
+                {this.state.topicsSpoken[this.state.activeIndex].Topics.map((item, i) =>
                   <li class="list-group-item">
-                    <h4>{this.topicsSpoken[this.state.activeIndex].topics[i]}</h4>
+                    <h4>{this.state.topicsSpoken[this.state.activeIndex].Topics[i]}</h4>
                   </li>
                 )}
               </ul>
+
               <br/>
               <br/>
             </div>
@@ -231,6 +229,9 @@ export default class Records extends React.Component {
   }
 }
 
+
+  // topicsSpoken = [{name: 'Education', value: 5, topics: ['1', '1', '1']}, {name: 'Transport', value: 2, topics: ['2', '2', '2']},
+  //                 {name: 'Womens Rights', value: 3, topics: ['3', '3', '3']}, {name: 'Race Relations', value: 8, topics: ['4', '4', '4']}]
 
               // 
 

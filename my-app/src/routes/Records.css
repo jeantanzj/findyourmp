@@ -1,0 +1,40 @@
+#profile > .col-md-12,
+#profile > .col-md-9,
+#profile > .col-md-3
+{
+	padding-right: 0; 
+	padding-left: 0;
+}
+
+#profile > .party-logo {
+	width: auto;
+	height: 80px;
+}
+
+#profile > .mp-pic {
+	padding-bottom: 25px;
+	max-height: 100%;
+    max-width: 100%;
+}
+
+#attendance,
+#profile,
+#voting,
+#topics {
+	padding-top: 25px
+}
+
+.title {
+	text-align: left;
+	position: absolute;
+}
+
+#attendance .attendanceChart {
+    max-width: 100%;
+}
+
+.container {
+	padding-top: 50px;
+}
+
+
